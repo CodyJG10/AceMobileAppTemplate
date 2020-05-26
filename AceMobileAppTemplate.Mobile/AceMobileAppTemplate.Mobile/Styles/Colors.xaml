@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AceMobileAppTemplate.Styles.Colors">
+
+    <Color x:Key="Theme-100">#F4F4F4</Color>
+    <Color x:Key="Theme-200">#F6E4F6</Color>
+    <Color x:Key="Theme-300">#F6BDD1</Color>
+    <Color x:Key="Theme-400">#C98986</Color>
+    <Color x:Key="Theme-500">#8B575C</Color>
+
+</ResourceDictionary>

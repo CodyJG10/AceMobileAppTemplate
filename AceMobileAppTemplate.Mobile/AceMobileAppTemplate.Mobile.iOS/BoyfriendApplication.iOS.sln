@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoyfriendApplication.iOS", "BoyfriendApplication.iOS.csproj", "{BCA3F784-2DE0-4E7A-BBD4-8E57703E731E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+		Debug|iPhone = Debug|iPhone
+		Release|iPhone = Release|iPhone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BCA3F784-2DE0-4E7A-BBD4-8E57703E731E}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{BCA3F784-2DE0-4E7A-BBD4-8E57703E731E}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{BCA3F784-2DE0-4E7A-BBD4-8E57703E731E}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{BCA3F784-2DE0-4E7A-BBD4-8E57703E731E}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{BCA3F784-2DE0-4E7A-BBD4-8E57703E731E}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{BCA3F784-2DE0-4E7A-BBD4-8E57703E731E}.Debug|iPhone.Build.0 = Debug|iPhone
+		{BCA3F784-2DE0-4E7A-BBD4-8E57703E731E}.Release|iPhone.ActiveCfg = Release|iPhone
+		{BCA3F784-2DE0-4E7A-BBD4-8E57703E731E}.Release|iPhone.Build.0 = Release|iPhone
+	EndGlobalSection
+EndGlobal

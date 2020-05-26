@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModel="clr-namespace:AceMobileAppTemplate.ViewModels"
+             xmlns:core="clr-namespace:Syncfusion.XForms.Core;assembly=Syncfusion.Core.XForms" 
+             xmlns:auth="clr-namespace:AceMobileAppTemplate.Views.Auth"
+             xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms" 
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:converters="clr-namespace:AceMobileAppTemplate.Converters"
+             xmlns:loadingSpinner="clr-namespace:AceMobileAppTemplate.Views.Loading" 
+             xmlns:controls="clr-namespace:AceMobileAppTemplate.Controls"
+             mc:Ignorable="d"
+             x:Class="AceMobileAppTemplate.Views.LoginPage"
+             BackgroundColor="{StaticResource Theme-200}">
+    
+    <ContentPage.BindingContext>
+        <viewModel:LoginPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary Source="Styles.xaml" />
+        <converters:ReverseBoolConverter x:Key="BooleanConverter"/>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid>
+            <ScrollView HorizontalOptions="Center">
+                <ScrollView.VerticalOptions>
+                    <OnIdiom
+                        x:TypeArguments="LayoutOptions"
+                        Default="CenterAndExpand"
+                        Phone="FillAndExpand" />
+                </ScrollView.VerticalOptions>
+
+                <StackLayout
+                    Margin="{core:OnPlatformOrientationThickness PhonePortrait='20,32',
+                                                                 PhoneLandscape='150,32',
+                                                                 TabletPortrait='200,50',
+                                                                 TabletLandscape='300,50',
+                                                                 Desktop='30'}"
+                    Spacing="0"
+                    VerticalOptions="FillAndExpand"
+                    WidthRequest="{OnPlatform Default='-1',
+                                              UWP='350'}">
+
+                    <Grid RowSpacing="15" VerticalOptions="CenterAndExpand">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!--  Label to display the title of this page  -->
+                        <Label
+                            FontFamily="{StaticResource SweetPurple}"
+                            FontSize="35"
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource LabelStyle}"
+                            Text="Log In" />
+
+                        <!--  Label to display the description of this page  -->
+                        <Label
+                            Grid.Row="1"
+                            Margin="0,8"
+                            FontFamily="{StaticResource SweetPurple}"
+                            FontSize="30"
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource LabelStyle}"
+                            Text="You're Not Getting Any Younger" />
+
+                        <!--  BorderlessEntry to get email ID from user  -->
+                        <border:SfBorder
+                            Grid.Row="2"
+                            Style="{StaticResource SfBorderStyle}">
+                            <controls:BorderlessEntry
+                                Placeholder="Email"
+                                Style="{StaticResource EntryStyle}"
+                                Text="{Binding Email}" />
+                        </border:SfBorder>
+                        
+                        <!--  BorderlessEntry to get password from user  -->
+                        <border:SfBorder
+                            Grid.Row="3"
+                            Style="{StaticResource SfBorderStyle}">
+                            <controls:BorderlessEntry x:Name="PasswordEntry"
+                                   IsPassword="True"
+                                   Placeholder="Password"
+                                   Text="{Binding Password}"
+                                   BackgroundColor="Transparent"
+                                   Style="{StaticResource EntryStyle}"/>
+                        </border:SfBorder>
+
+                        <!--  Forgot password link  -->
+                        <Label
+                            x:Name="ForgotPasswordLabel"
+                            Grid.Row="4"
+                            Margin="0,16"
+                            FontFamily="{StaticResource SweetPurple}"
+                            FontSize="25"
+                            HorizontalOptions="End"
+                            Text="FORGOT PASSWORD?"
+                            TextColor="{StaticResource Theme-400}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ForgotPasswordLabel_Tapped"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                        <!--  Login button  -->
+                        <buttons:SfButton
+                            Grid.Row="5"
+                            Margin="0,16"
+                            Command="{Binding LoginCommand}"
+                            TextColor="{StaticResource Theme-100}"
+                            Style="{StaticResource SfButtonStyle}"
+                            Text="LOG IN"/>
+
+                        <loadingSpinner:LoadingSpinner Grid.Row="6"
+                                                       HorizontalOptions="Center"
+                                                       IsVisible="{Binding Loading}"/>
+
+                    </Grid>
+
+                    <!-- Sign Up Section -->
+                    <StackLayout
+                        HorizontalOptions="Center"
+                        Orientation="Horizontal"
+                        Spacing="1"
+                        VerticalOptions="End">
+
+                        <Label
+                            FontFamily="{StaticResource SweetPurple}"
+                            HorizontalOptions="CenterAndExpand"
+                            HorizontalTextAlignment="Center"
+                            FontSize="30"
+                            Style="{StaticResource LabelStyle}"
+                            Text="Don't have an account?"
+                            VerticalTextAlignment="Center" />
+
+                        <!--  Sign-up button  -->
+                        <buttons:SfButton
+                            Command="{Binding RegisterCommand}"
+                            FontSize="30"
+                            CornerRadius="4"
+                            Style="{StaticResource SfFlatButtonStyle}"
+                            Text="Sign Up" />
+
+                    </StackLayout>
+
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+        
+    </ContentPage.Content>
+</ContentPage>

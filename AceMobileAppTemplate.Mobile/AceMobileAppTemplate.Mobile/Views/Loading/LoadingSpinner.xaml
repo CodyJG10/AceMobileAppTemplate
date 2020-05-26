@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AceMobileAppTemplate.Views.Loading.LoadingSpinner"
+             HeightRequest="75"
+             WidthRequest="75">
+    <ContentView.Content>
+        <StackLayout>
+
+            <busyindicator:SfBusyIndicator AnimationType="Box" 
+                                           ViewBoxWidth = "75" 
+                                           ViewBoxHeight="75" 
+                                           TextColor="{StaticResource Theme-500}" />
+
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

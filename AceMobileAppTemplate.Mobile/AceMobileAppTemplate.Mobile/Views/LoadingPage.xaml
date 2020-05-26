@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="AceMobileAppTemplate.Views.LoadingPage">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand">
+
+            <Label Text="Ace Mobile App Template"
+                   HorizontalOptions="Center"
+                   FontFamily="{StaticResource SweetPurple}"
+                   FontSize="35"
+                   TextColor="{StaticResource Theme-500}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

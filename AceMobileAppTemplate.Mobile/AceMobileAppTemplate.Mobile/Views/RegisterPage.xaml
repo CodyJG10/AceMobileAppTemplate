@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:converter="clr-namespace:AceMobileAppTemplate.Converters" 
+             xmlns:viewModel="clr-namespace:AceMobileAppTemplate.ViewModels"
+             xmlns:core="clr-namespace:Syncfusion.XForms.Core;assembly=Syncfusion.Core.XForms"
+             xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
+             xmlns:local="clr-namespace:AceMobileAppTemplate.Views.Auth"
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
+             xmlns:controls="clr-namespace:AceMobileAppTemplate.Controls" 
+             xmlns:loadingSpinner="clr-namespace:AceMobileAppTemplate.Views.Loading"
+             mc:Ignorable="d"
+             x:Class="AceMobileAppTemplate.Views.RegisterPage"
+             BackgroundColor="{StaticResource Theme-200}">
+   
+    <ContentPage.Resources>
+        <ResourceDictionary Source="Styles.xaml" />
+        <converter:ReverseBoolConverter x:Key="BooleanConverter"/>
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <viewModel:RegisterPageViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <Grid>
+            <ScrollView HorizontalOptions="Center">
+                <ScrollView.VerticalOptions>
+                    <OnIdiom
+                        x:TypeArguments="LayoutOptions"
+                        Default="CenterAndExpand"
+                        Phone="FillAndExpand" />
+                </ScrollView.VerticalOptions>
+
+                <StackLayout
+                    Margin="{core:OnPlatformOrientationThickness PhonePortrait='20,32',
+                                                                 PhoneLandscape='150,32',
+                                                                 TabletPortrait='200,50',
+                                                                 TabletLandscape='300,50'}"
+                    Spacing="0"
+                    VerticalOptions="FillAndExpand">
+                    <StackLayout HorizontalOptions="Center"
+                                 Spacing="24"
+                                 VerticalOptions="CenterAndExpand">
+
+                        <!--  Label to display the title of this page  -->
+                        <Label FontFamily="{StaticResource SweetPurple}"
+                               FontSize="35"
+                               HorizontalOptions="Center"
+                               Style="{StaticResource LabelStyle}"
+                               Text="Sign Up" />
+
+                        <!--  Label to display the description of this page  -->
+                        <Label Margin="0,-16,0,8"
+                               FontSize="30"
+                               FontFamily="{StaticResource SweetPurple}"
+                               HorizontalTextAlignment="Center"
+                               Style="{StaticResource LabelStyle}"
+                               Text="Create your account and get started" />
+
+                        <!--  Entry to get email ID from user  -->
+                        <border:SfBorder Style="{StaticResource SfBorderStyle}">
+                            <controls:BorderlessEntry x:Name="Email"
+                                   Placeholder="Email"
+                                   Keyboard="Email"
+                                   Text="{Binding Email}" 
+                                   Style="{StaticResource EntryStyle}"/>
+                        </border:SfBorder>
+
+                        <!--  Entry to get password from user  -->
+                        <border:SfBorder Style="{StaticResource SfBorderStyle}">
+                            <controls:BorderlessEntry x:Name="PasswordEntry"
+                                   IsPassword="true"
+                                   Placeholder="Password"
+                                   Style="{StaticResource EntryStyle}"
+                                   Text="{Binding Password}" />
+                        </border:SfBorder>
+
+                        <!--  Entry to get the confirm password from user  -->
+                        <border:SfBorder Style="{StaticResource SfBorderStyle}">
+                            <controls:BorderlessEntry x:Name="ConfirmPasswordEntry"
+                                   IsPassword="true"
+                                   Placeholder="Confirm Password"
+                                   Style="{StaticResource EntryStyle}"
+                                   Text="{Binding ConfirmPassword}" />
+                        </border:SfBorder>
+
+                        <!--  Sign-up button  -->
+                        <buttons:SfButton Command="{Binding RegisterCommand}"
+                                          CornerRadius="20"
+                                          FontFamily="{StaticResource SweetPurple}"
+                                          Style="{StaticResource SfButtonStyle}"
+                                          Text="REGISTER" 
+                                          TextColor="{StaticResource Theme-100}"
+                                          IsEnabled="{Binding Loading, Converter={StaticResource BooleanConverter}}"/>
+
+
+                        <loadingSpinner:LoadingSpinner HorizontalOptions="Center"
+                                                       IsVisible="{Binding Loading}"/>
+
+                    </StackLayout>
+
+                    <!-- Login Button -->
+                    <StackLayout
+                        HorizontalOptions="Center"
+                        Orientation="Horizontal"
+                        Spacing="1"
+                        VerticalOptions="End">
+
+                        <Label
+                            FontFamily="{StaticResource SweetPurple}"
+                            HorizontalOptions="CenterAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource LabelStyle}"
+                            Text="Already have an account?"
+                            FontSize="30"
+                            VerticalTextAlignment="Center" />
+
+                        <buttons:SfButton
+                            Command="{Binding LoginCommand}"
+                            CornerRadius="4"
+                            Style="{StaticResource SfFlatButtonStyle}"
+                            FontSize="30"
+                            Text="Log In" />
+
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

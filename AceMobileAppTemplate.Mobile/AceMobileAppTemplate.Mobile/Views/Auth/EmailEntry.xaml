@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms" 
+             xmlns:style="clr-namespace:AceMobileAppTemplate.Views.Auth" 
+             xmlns:converter="clr-namespace:AceMobileAppTemplate.Converters"
+             mc:Ignorable="d"
+             x:Class="AceMobileAppTemplate.Views.Auth.EmailEntry">
+
+    <ContentView.Content>
+        <StackLayout>
+            <border:SfBorder>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Entry x:Name="Email"
+                           Placeholder="Email"
+                           Keyboard="Email"
+                           Text="{Binding Email}" 
+                           Style="{StaticResource EntryStyle}"/>
+
+                </Grid>
+            </border:SfBorder>
+            
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>
