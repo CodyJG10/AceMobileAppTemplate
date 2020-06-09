@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:AceMobileAppTemplate.Mobile.Models"
+             mc:Ignorable="d"
+             x:Class="AceMobileAppTemplate.Mobile.Views.Onboarding.OnboardingModalBase">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Color x:Key="BlueColor">#071D92</Color>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource BlueColor}" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.Margin>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="0,35,0,0" />
+        </OnPlatform>
+    </ContentView.Margin>
+
+    <ContentView.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0"
+                HorizontalOptions="EndAndExpand"
+                Margin="0,0,20,0"
+                FontSize="Medium"
+                FontAttributes="Bold"
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource BlueColor}"
+                Text="{Binding SkipButtonText}"
+                Command="{Binding SkipCommand}"/>
+            <CarouselView x:Name="onBoardingCarousel"
+                          Grid.Row="1"
+                          ItemsSource="{Binding Items}"                          
+                          VerticalOptions="Center"
+                          IndicatorView="CarouselIndicator"
+                          Position="{Binding Position}">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate x:DataType="models:OnboardingOverviewModel">
+                        <ContentView>
+                            <FlexLayout Direction="Column"
+                                JustifyContent="SpaceEvenly">
+                                <Label Text="{Binding Title}"
+                                       HorizontalTextAlignment="Center" 
+                                       FontAttributes="Bold"
+                                       FontSize="Title" />
+                                <Image                                 
+                                    Source="{Binding ImageUrl}"
+                                    Aspect="AspectFill"
+                                    WidthRequest="300" 
+                                    HorizontalOptions="Center"
+                                    FlexLayout.AlignSelf="Center"/>
+                                <Label Text="{Binding Content}"
+                                    FontSize="Body"/>
+                            </FlexLayout>
+                        </ContentView>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+            <IndicatorView
+                Grid.Row="2"
+                x:Name="CarouselIndicator"
+                IndicatorsShape="Circle"
+                IndicatorColor="DarkGray"
+                SelectedIndicatorColor="{StaticResource BlueColor}"
+                HorizontalOptions="Center"
+                Margin="0,0,0,30"/>
+
+        </Grid>
+
+    </ContentView.Content>
+
+</ContentView>
