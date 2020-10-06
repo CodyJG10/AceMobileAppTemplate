@@ -66,7 +66,7 @@ namespace AceMobileAppTemplate
         private void InitServices()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterInstance(new DatabaseManager("https://AceMobileAppTemplate.azurewebsites.net/"))
+            builder.RegisterInstance(new DatabaseManager(Mobile.Properties.Resources.WEB_API_URL))
                 .As<IDatabaseManager>()
                 .SingleInstance();
             Container = builder.Build();
@@ -74,14 +74,24 @@ namespace AceMobileAppTemplate
 
         protected override void OnStart()
         {
+            if (!CrossSettings.Current.GetValueOrDefault("RefreshToken", "_").Equals("_"))
+            {
+                RefreshToken();
+            }
+            else
+            {
+                MainPage = new LoginPage();
+            }
         }
 
         protected override void OnSleep()
         {
+            //(Container.Resolve<AutoUpdater>()).Stop();
         }
 
         protected override void OnResume()
         {
+            //(Container.Resolve<AutoUpdater>()).Start();
         }
     }
 }
