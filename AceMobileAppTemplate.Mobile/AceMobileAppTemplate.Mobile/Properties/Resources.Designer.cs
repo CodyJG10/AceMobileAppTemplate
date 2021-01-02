@@ -61,6 +61,15 @@ namespace AceMobileAppTemplate.Mobile.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MjU4NDI1QDMxMzgyZTMxMmUzMHBFVEtTMWVrSStFQ0xmdVZKcllWWFl3amUwVTZSV3Y4bjEzNC9sT3hUZ009.
+        /// </summary>
+        internal static string SYNCFUSION_LICENSE {
+            get {
+                return ResourceManager.GetString("SYNCFUSION_LICENSE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://AceMobileAppTemplate.azurewebsites.net/.
         /// </summary>
         internal static string WEB_API_URL {

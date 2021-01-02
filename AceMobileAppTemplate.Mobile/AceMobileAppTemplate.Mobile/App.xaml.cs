@@ -19,37 +19,40 @@ namespace AceMobileAppTemplate
         {
             InitializeComponent();
 
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjU4NDI1QDMxMzgyZTMxMmUzMHBFVEtTMWVrSStFQ0xmdVZKcllWWFl3amUwVTZSV3Y4bjEzNC9sT3hUZ009");
+            MainPage = new LoadingPage();
+
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(AceMobileAppTemplate.Mobile.Properties.Resources.SYNCFUSION_LICENSE);
 
             InitServices();
 
-            MainPage = new LoadingPage();
+            try
+            {
+                Container.Resolve<IDatabaseManager>().Authenticate();
+            }
+            catch (Exception e)
+            {
+                MainPage.DisplayAlert("Error", "There was an error authenticating with the server: " + e.Message, "Close");
+                Quit();
+            }
 
-            if (CrossSettings.Current.GetValueOrDefault("RefreshToken", "_") == "_")
+            if (CrossSettings.Current.GetValueOrDefault("Username", "_") != "_")
+            {
+                AutoLogin();
+            }
+            else
             {
                 MainPage = new LoginPage();
             }
-            else
-            { 
-                RefreshToken();
-            }
         }
 
-        private async void RefreshToken()
+        private async void AutoLogin()
         {
-            string refreshToken = CrossSettings.Current.GetValueOrDefault("RefreshToken", "_");
-            string token = CrossSettings.Current.GetValueOrDefault("Token", "_");
+            string username = CrossSettings.Current.GetValueOrDefault("Username", "");
+            string password = CrossSettings.Current.GetValueOrDefault("Password", "");
             var db = Container.Resolve<IDatabaseManager>();
-            var response = await db.RefreshToken(token, refreshToken);
-            if (response.IsSuccessStatusCode)
+            var loginResponse = await db.Login(username, password);
+            if (loginResponse.IsSuccessStatusCode)
             {
-                var contentString = await response.Content.ReadAsStringAsync();
-                var content = JsonConvert.DeserializeObject<AuthResult>(contentString);
-                var newToken = content.Token;
-                var newRefreshToken = content.RefreshToken;
-                db.SetToken(token);
-                CrossSettings.Current.AddOrUpdateValue("RefreshToken", newRefreshToken);
-                CrossSettings.Current.AddOrUpdateValue("Token", newToken);
                 MainPage = new NavigationPage(new MainPage())
                 {
                     BarBackgroundColor = (Color)Current.Resources["Theme-500"],
@@ -58,6 +61,7 @@ namespace AceMobileAppTemplate
             }
             else
             {
+                MainPage = new LoginPage();
                 MainPage = new LoginPage();
                 await MainPage.DisplayAlert("Authentication Error", "You have been logged out", "Ok");
             }
@@ -74,14 +78,7 @@ namespace AceMobileAppTemplate
 
         protected override void OnStart()
         {
-            if (!CrossSettings.Current.GetValueOrDefault("RefreshToken", "_").Equals("_"))
-            {
-                RefreshToken();
-            }
-            else
-            {
-                MainPage = new LoginPage();
-            }
+
         }
 
         protected override void OnSleep()

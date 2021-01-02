@@ -1,4 +1,5 @@
 ﻿using AceMobileAppTemplate.Entities;
+using IdentityModel.Client;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,14 +15,6 @@ namespace AceMobileAppTemplate.Api
     {
         private readonly HttpClient _client;
 
-        public struct LoginResult
-        {
-            [JsonProperty("token")]
-            public string Token { get; set; }
-            [JsonProperty("refreshToken")]
-            public string RefreshToken { get; set; }
-        }
-
         public DatabaseManager(string url)
         {
             _client = new HttpClient
@@ -30,31 +23,61 @@ namespace AceMobileAppTemplate.Api
             };
         }
 
-        public async Task<HttpResponseMessage> GetUserData()
+        public async Task<HttpResponseMessage> GetUserData(string id = null, string email = null)
         {
-            return await _client.GetAsync("auth/userdata");
+            string callParams;
+            if (id != null)
+            {
+                callParams = "?id=" + id;
+            }
+            else
+            {
+                callParams = "?email=" + email;
+            }
+            var response = await _client.GetAsync("api/UserData" + callParams);
+            return response;
         }
 
+        #region Account
+        public async Task<HttpResponseMessage> Authenticate()
+        {
+            var disco = await _client.GetDiscoveryDocumentAsync(_client.BaseAddress.AbsoluteUri);
+            if (disco.IsError)
+            {
+                Console.WriteLine(disco.Error);
+                return new HttpResponseMessage(System.Net.HttpStatusCode.NotFound);
+            }
+
+            // request token
+            var tokenResponse = await _client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = disco.TokenEndpoint,
+
+                ClientId = "client",
+                ClientSecret = "secret",
+                Scope = "api1"
+            });
+
+            if (tokenResponse.IsError)
+            {
+                Console.WriteLine(tokenResponse.Error);
+                return new HttpResponseMessage(System.Net.HttpStatusCode.Forbidden);
+            }
+
+            _client.SetBearerToken(tokenResponse.AccessToken);
+            return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+        }
         public async Task<HttpResponseMessage> Login(string username, string password)
         {
             var formContent = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("Username", username),
-                new KeyValuePair<string, string>("Password", password)
+                new KeyValuePair<string, string>("username", username),
+                new KeyValuePair<string, string>("password", password),
             });
 
-            var response = await _client.PostAsync("auth/token", formContent);
-            if (response.IsSuccessStatusCode)
-            {
-                var result = await response.Content.ReadAsStringAsync();
-                LoginResult content = JsonConvert.DeserializeObject<LoginResult>(result);
-                string token = content.Token;
-                SetToken(token);
-            }
-
+            var response = await _client.PostAsync("api/login", formContent);
             return response;
         }
-
         public async Task<HttpResponseMessage> Register(string email, string password, string confirmPassword)
         {
             var formContent = new FormUrlEncodedContent(new[]
@@ -68,7 +91,6 @@ namespace AceMobileAppTemplate.Api
             var response = await _client.PostAsync("auth/register", formContent);
             return response;
         }
-
         public async void ForgotPassword(string email)
         {
             var formContent = new FormUrlEncodedContent(new[]
@@ -78,30 +100,14 @@ namespace AceMobileAppTemplate.Api
 
             await _client.PostAsync("auth/ForgotPassword", formContent);
         }
+        #endregion
 
-        public async Task<HttpResponseMessage> RefreshToken(string token, string refreshToken)
-        {
-            var formContent = new FormUrlEncodedContent(new[]
-          {
-                new KeyValuePair<string, string>("token", token),
-                new KeyValuePair<string, string>("refreshtoken", refreshToken)
-            });
-
-            var result = await _client.PostAsync("auth/RefreshToken", formContent);
-            return result;
-        }
-
-        public void SetToken(string token)
-        {
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        }
-
+        #region Push Notifications
         public async Task<string> RegisterDevice()
         {
             var response = await _client.GetAsync("notifications/Register");
             return await response.Content.ReadAsStringAsync();
         }
-
         public async Task<bool> EnablePushNotifications(string id, DeviceRegistration deviceUpdate)
         {
             string json = JsonConvert.SerializeObject(deviceUpdate);
@@ -109,5 +115,6 @@ namespace AceMobileAppTemplate.Api
             var response = await _client.PutAsync("notifications/enable/" + id, content);
             return response.IsSuccessStatusCode;
         }
+        #endregion
     }
 }

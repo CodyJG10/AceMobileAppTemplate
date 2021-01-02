@@ -10,9 +10,8 @@ namespace AceMobileAppTemplate.Api
 {
     public interface IDatabaseManager
     {
-        void SetToken(string token);
-        Task<HttpResponseMessage> GetUserData();
-        Task<HttpResponseMessage> RefreshToken(string token, string refreshToken);
+        Task<HttpResponseMessage> GetUserData(string id = null, string email = null);
+        Task<HttpResponseMessage> Authenticate();
         Task<HttpResponseMessage> Login(string email, string password);
         Task<HttpResponseMessage> Register(string email, string password, string confirmPassword);
         void ForgotPassword(string email);

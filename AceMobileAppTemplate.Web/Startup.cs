@@ -47,20 +47,22 @@ namespace AceMobileAppTemplate.Web
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            string signingKey = Configuration["SigningKey"];
-            services.AddAuthentication()
-               .AddJwtBearer(options =>
-               {
-                   options.SaveToken = true;
-                   options.TokenValidationParameters = new TokenValidationParameters()
-                   {
-                       ValidateIssuer = false,
-                       ValidateAudience = false,
-                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey))
-                   };
-               });
+            //string signingKey = Configuration["SigningKey"];
+            var builder = services.AddIdentityServer()
+               .AddDeveloperSigningCredential()        //This is for dev only scenarios when you don’t have a certificate to use.
+               .AddInMemoryApiScopes(Config.ApiScopes)
+               .AddInMemoryClients(Config.Clients);
 
-            services.AddSingleton(new IdentityService(signingKey));
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "https://localhost:5001";
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false
+                    };
+                });
 
             string sendGridApiKey = Configuration["SendGridApiKey"];
             services.AddSingleton(typeof(IEmailSender), new EmailSender(sendGridApiKey));
@@ -87,7 +89,6 @@ namespace AceMobileAppTemplate.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             else
             {
