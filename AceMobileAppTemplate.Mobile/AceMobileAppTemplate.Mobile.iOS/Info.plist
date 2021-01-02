@@ -30,8 +30,6 @@
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>AceMobileAppTemplate</string>
-	<key>XSAppIconAssets</key>
-	<string>Assets.xcassets/AppIcons.appiconset</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0.8</string>
 	<key>UIAppFonts</key>
@@ -44,5 +42,7 @@
 	<string>ca-app-pub-9220085631369979~1341371485</string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>XSAppIconAssets</key>
+	<string>Assets.xcassets/AppIcon_Xamarin.appiconset</string>
 </dict>
 </plist>
