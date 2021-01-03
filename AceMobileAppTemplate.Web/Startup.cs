@@ -104,6 +104,8 @@ namespace AceMobileAppTemplate.Web
 
             app.UseRouting();
 
+            app.UseIdentityServer();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
